@@ -60,25 +60,13 @@ public class BaseFunc {
     }
 
     public void goToUrl(String url) {
-        url = !url.contains(getProperty("url")) &&
-                !url.contains(getProperty("newCabinetUrl")) ? getProperty("url") + url : url;
+        url = !url.contains(getProperty("url")) ? getProperty("url") + url : url;
 
-        url = !url.startsWith("http://") && !url.startsWith("https://") ? "http://" + url : url;
+        url = !url.startsWith("http://") ? "http://" + url : url;
         LOGGER.info("Going to URL: " + url);
         driver.get(url);
     }
 
-    public void getAdminLoginForm() {
-        driver.get(getProperty("adminPanelUrl"));
-    }
-
-    public void getCustomerLoginForm() {
-        driver.get(getProperty("newCabinetUrl"));
-    }
-
-    public void getHomePage() {
-        goToUrl(getProperty("url"));
-    }
 
     public WebElement getElement(By locator) {
         return wait.until(visibilityOfElementLocated(locator));
