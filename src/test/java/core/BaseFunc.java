@@ -32,7 +32,7 @@ public class BaseFunc {
         props = AppConfig.getProperties();
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         System.setProperty("webdriver.chrome.driver", getProperty("webdriver.location"));
 
         driver = new ChromeDriver(options);
@@ -60,9 +60,7 @@ public class BaseFunc {
     }
 
     public void goToUrl(String url) {
-        url = !url.contains(getProperty("url")) ? getProperty("url") + url : url;
-
-        url = !url.startsWith("http://") ? "http://" + url : url;
+        url = !url.startsWith("http://") && !url.startsWith("https://") ? "http://" + url : url;
         LOGGER.info("Going to URL: " + url);
         driver.get(url);
     }
