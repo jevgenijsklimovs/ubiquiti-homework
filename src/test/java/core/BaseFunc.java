@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +33,9 @@ public class BaseFunc {
         props = AppConfig.getProperties();
 
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless");
+//        options.addArguments("--headless");
+        options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+        options.setExperimentalOption("useAutomationExtension", false);
         System.setProperty("webdriver.chrome.driver", getProperty("webdriver.location"));
 
         driver = new ChromeDriver(options);
@@ -44,9 +47,9 @@ public class BaseFunc {
             driver.manage().window().setSize(dimension);
         }
 
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        wait = new WebDriverWait(driver, 12);
+        wait = new WebDriverWait(driver, 15);
     }
 
     public String getProperty(String key) {
@@ -285,5 +288,10 @@ public class BaseFunc {
     public void refresh() {
         LOGGER.info("Refreshing Page");
         driver.navigate().refresh();
+    }
+
+    public void move(WebElement webElement){
+        Actions action = new Actions(driver);
+        action.moveToElement(webElement).click().perform();
     }
 }
